@@ -106,9 +106,11 @@ export default class Share {
         }
       },
       'ok': {
-        'domain': 'https://connect.ok.ru/dk?',
+        'domain': 'https://connect.ok.ru/offer?',
         'params': {
           'url' : this.url,
+          'title' : this.title,
+          'imageUrl' : this.image,
         }
       },
     };
