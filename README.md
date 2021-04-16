@@ -14,14 +14,24 @@ let share = new Share({/* options */});
 - Use `.create` and `.open` methods
 
 ### Options
-|Name|Type|Description|
-|---|---|---|
+|Name|Type|Description|Default|
+|---|---|---|---|
 |url|String|url to share|
 |title|String|site title|
 |image|String|image url|
 |description|String |site description|
 |metrics|Object|yandex metrics object (?)|
-|prefix|String|prefix for metrics goal|
+|prefix|String|prefix for metrics goal|'share_'|
+|width|Number|popup width|600
+|height|Number|popup height|600
+|isCanvas|Boolean|Set to true, if your game (based on canvas) can't open links|false|
+|mode|String|'\_blank' or '', also can take any [windowName](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#parameters) value|''|
+|library|String|Read below|'vanilla'|
+|id|Number|if 'vanilla' choosen, pass metrics id||
+
+### Available library values
+
+`vanilla, vue, react`
 
 ### Available social media names
 
@@ -42,16 +52,15 @@ Example: `Share.open('vk')`
 ### YA.metrika support
 You can use script in vanilla js, react, vue, etc.
 
-But some modules in react or vue, for example, use different methods. So, you need edit [this line](https://github.com/TABmk/simple-share/blob/master/share.js#L166) if you want add support of your module.
-
-##### VanillaJS
-- Change to `this.metrics(55665566,'reachGoal','${this.prefix}${name}')`
-- And pass `ym` to `metrics`
+##### vanilla
+- Set 'vanilla' mode
+- Pass `ym` to `metrics`
+Function: ``` this.metrics(thid.id,'reachGoal',`${this.prefix}${name}`) ```
 ##### Vue + vue-yandex-metrika
-- Just pass `this.$metrika` to `metrics`
-##### React + vue-yandex-metrika
-- Change to `this.metrics('reachGoal','${this.prefix}${name}')`
-- And pass `ym` (your variable from `import ym from 'react-yandex-metrika';`) to `metrics`
-
-### TODO
-Add ability to pass costum metrics call function to options
+- Set 'vue' mode
+- Pass `this.$metrika` to `metrics`
+Function: ``` this.metrics.reachGoal(`${this.prefix}${name}`) ```
+##### React + react-yandex-metrika
+- Set 'react' mode
+- Pass `ym` (your variable from `import ym from 'react-yandex-metrika';`) to `metrics`
+Function: ``` this.metrics('reachGoal','${this.prefix}${name}') ```
