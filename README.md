@@ -55,12 +55,12 @@ You can use script in vanilla js, react, vue, etc.
 ##### vanilla
 - Set 'vanilla' mode
 - Pass `ym` to `metrics`
-Function: ``` this.metrics(thid.id,'reachGoal',`${this.prefix}${name}`) ```
+- Function: ``` this.metrics(thid.id,'reachGoal',`${this.prefix}${name}`) ```
 ##### Vue + vue-yandex-metrika
 - Set 'vue' mode
 - Pass `this.$metrika` to `metrics`
-Function: ``` this.metrics.reachGoal(`${this.prefix}${name}`) ```
+- Function: ``` this.metrics.reachGoal(`${this.prefix}${name}`) ```
 ##### React + react-yandex-metrika
 - Set 'react' mode
 - Pass `ym` (your variable from `import ym from 'react-yandex-metrika';`) to `metrics`
-Function: ``` this.metrics('reachGoal','${this.prefix}${name}') ```
+- Function: ``` this.metrics('reachGoal','${this.prefix}${name}') ```
