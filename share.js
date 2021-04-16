@@ -1,5 +1,5 @@
 /**
- * @author TAB_mk https://tab.moe <ghshare@tab.moe>
+ * @author TAB_mk https://tab.mk <tabmk.contact@gmail.com>
  * @file Usage:
  *
  * let share = new Share({
@@ -30,6 +30,16 @@
  *             По умолчанию 'share_' и потом дополнится названием сети.
  * metrics - ⚠️ Объект яндекс метрики, если нужно включать ее.
  *              Именно та переменая от я.метрики (yaCounter56173735 например)
+ * isCanvas - Нужно ли включить фикс для игр, которые испольщуют canvas.
+ *            Если не открываются ссылки по клику, то можно включить это.
+ * mode - '_blank' для новой вкладки или '' для нового окна. По умолчанию -- ''
+ *        Можно передать любое значение 'windowName' https://developer.mozilla.org/en-US/docs/Web/API/Window/open#parameters
+ * library - ⚠️ Доступные значения:
+ *              'vanilla' = this.metrics(55665566,'reachGoal',`${this.prefix}${name}`)
+ *              'vue' = this.metrics.reachGoal(`${this.prefix}${name}`); (vue-yandex-metrika)
+ *              'react' = this.metrics('reachGoal','${this.prefix}${name}'); (react-yandex-metrika)
+ *              По умолчанию -- vanilla (нужно так же передать id)
+ * id - если library = vanilla, то нужно передать это значение           
  *
  * Полный пример:
  * let share = new Share({
@@ -76,6 +86,12 @@ export default class Share {
     // popup params
     this.width = 600;
     this.height = 600;
+    // default value for canvas fix
+    this.isCanvas = false;
+    // default value for window open mode
+    this.mode = '';
+    // library
+    this.library = 'vanilla';
   }
 
   /**
@@ -118,6 +134,20 @@ export default class Share {
     return list;
   }
 
+  reachGoal(name) {
+    switch (this.library) {
+      case 'vanilla':
+        this.metrics(this.id, 'reachGoal', `${this.prefix}${name}`);
+        break;
+      case 'vue':
+        this.metrics.reachGoal(`${this.prefix}${name}`);
+        break;
+      case 'react':
+        this.metrics('reachGoal', `${this.prefix}${name}`);
+        break;
+    }
+  }
+
   /**
    * check if data for this site available
    * @param  {String} name site short name
@@ -128,6 +158,16 @@ export default class Share {
 
     if (!site || typeof site === 'undefined') {
       throw new Error(`Wrong site (${name}). Available: ${Object.keys(this.sites).join(',')}`);
+    }
+
+    if (this.library === 'vanilla' && !this.id) {
+      throw new Error(`Choosen 'vanilla', please pass 'id'`);
+    }
+
+    const libs = ['vanilla', 'vue', 'react'];
+    
+    if (!libs.includes(this.library)) {
+      throw new Error(`Wrong library (${this.library}. Available: ${Object.keys(libs).join(',')})`);
     }
 
     return site;
@@ -165,9 +205,28 @@ export default class Share {
 
     // call metrics if ya.metrics object(?) passed
     if (this.metrics) {
-      this.metrics.reachGoal(`${this.prefix}${name}`);
+      reachGoal(name);
     }
     // open popup
-    window.open(this.create(name), '', `width=${this.width},height=${this.height}`);
+    if (this.isCanvas) {
+      function OpenURL (url) {
+        let gameCanvas = document.getElementsByTagName('canvas')[0];
+
+        if (gameCanvas !== null)  {
+          let endInteractFunction = function() {
+            window.open(url, this.mode, this.mode === '' ? `width=${this.width},height=${this.height}` : '');
+            gameCanvas.onmouseup = null;
+            gameCanvas.ontouchend = null;
+          }
+
+          gameCanvas.ontouchend = endInteractFunction;
+          gameCanvas.onmouseup = endInteractFunction;
+        }
+      }
+      
+      OpenURL(this.create(name));
+    } else {
+      window.open(this.create(name), this.mode, this.mode === '' ? `width=${this.width},height=${this.height}` : '');
+    }
   }
 }
