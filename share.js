@@ -205,7 +205,7 @@ export default class Share {
 
     // call metrics if ya.metrics object(?) passed
     if (this.metrics) {
-      reachGoal(name);
+      this.reachGoal(name);
     }
     // open popup
     if (this.isCanvas) {
