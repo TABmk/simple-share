@@ -65,7 +65,7 @@
 /**
  * Share link in social media
  */
-export default class Share {
+class Share {
   /**
    * Only one object is passing to constructor
    * Params:
