@@ -87,11 +87,11 @@ class Share {
     this.width = 600;
     this.height = 600;
     // default value for canvas fix
-    this.isCanvas = false;
+    this.isCanvas = params.isCanvas || false;
     // default value for window open mode
-    this.mode = '';
+    this.mode = params.mode || '';
     // library
-    this.library = 'vanilla';
+    this.library = params.library || 'vanilla';
   }
 
   /**
