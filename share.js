@@ -101,7 +101,7 @@ class Share {
   get sites() {
     let list = {
       'vk': {
-        'domain': 'http://vk.com/share.php?',
+        'domain': 'https://vk.com/share.php?',
         'params': {
           'url': this.url,
           'title': this.title,
@@ -109,13 +109,13 @@ class Share {
         },
       },
       'fb': {
-        'domain': 'http://www.facebook.com/sharer.php?',
+        'domain': 'https://www.facebook.com/sharer.php?',
         'params': {
           'u' : this.url,
         }
       },
       'tw': {
-        'domain': 'http://twitter.com/share?',
+        'domain': 'https://twitter.com/share?',
         'params': {
           'text': this.description,
           'url': this.url,
