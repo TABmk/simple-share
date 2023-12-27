@@ -129,6 +129,13 @@ class Share {
           'imageUrl' : this.image,
         }
       },
+      'tg': {
+        'domain': 'https://telegram.me/share/url?',
+        'params': {
+          'url' : this.url,
+          'text' : this.title,
+        }
+      },
     };
 
     return list;
